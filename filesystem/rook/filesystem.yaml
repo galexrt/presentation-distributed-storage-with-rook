@@ -1,0 +1,41 @@
+---
+apiVersion: rook.io/v1alpha1
+kind: Filesystem
+metadata:
+  name: cfs-r2-1
+  namespace: rook
+spec:
+  metadataPool:
+    replicated:
+      size: 2
+  dataPools:
+    - replicated:
+        size: 2
+  metadataServer:
+    activeCount: 1
+    activeStandby: true
+    placement:
+      podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                    - rook-ceph-mds
+              topologyKey: "kubernetes.io/hostname"
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: roles.clster.zone/rook-mds
+              operator: In
+              values:
+              - ""
+    resources:
+      limits:
+        cpu: "2"
+        memory: "4096Mi"
+      requests:
+        cpu: "128m"
+        memory: "512Mi"

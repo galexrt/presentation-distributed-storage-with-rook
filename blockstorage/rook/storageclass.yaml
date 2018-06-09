@@ -1,0 +1,12 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+   name: rook-blk-r1-s2
+   namespace: rook
+   annotations:
+     storageclass.beta.kubernetes.io/is-default-class: "true"
+provisioner: rook.io/block
+parameters:
+  pool: blk-r1-s2
+  clusterName: rook

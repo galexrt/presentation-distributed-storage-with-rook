@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: busybox
+  labels:
+    app: busybox
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - image: busybox:1.28.4-glibc
+        name: busybox
+        volumeMounts:
+        - name: busybox-persistent-storage
+          mountPath: /data
+      volumes:
+      - name: busybox-persistent-storage
+        persistentVolumeClaim:
+          claimName: busybox-pv-claim

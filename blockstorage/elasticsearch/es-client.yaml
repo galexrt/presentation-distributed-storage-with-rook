@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: es-client
+  namespace: zerbytes-live-proj-logging
+  labels:
+    app: elasticsearch
+    role: client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: elasticsearch
+      role: client
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+        role: client
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchExpressions:
+              - key: role
+                operator: In
+                values:
+                - client
+      initContainers:
+      - name: init-sysctl
+        image: busybox:1.27.2
+        command:
+        - sysctl
+        - -w
+        - vm.max_map_count=262144
+        securityContext:
+          privileged: true
+      containers:
+      - name: es-client
+        image: quay.io/pires/docker-elasticsearch-kubernetes:6.2.3_1
+        env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: CLUSTER_NAME
+          value: zerbytes-0
+        - name: NODE_MASTER
+          value: "false"
+        - name: NODE_DATA
+          value: "false"
+        - name: HTTP_ENABLE
+          value: "true"
+        - name: ES_JAVA_OPTS
+          value: "-Xms2G -Xmx2G"
+        - name: NETWORK_HOST
+          value: "_eth0_"
+        - name: "ES_PLUGINS_INSTALL"
+          value: "ingest-geoip,ingest-user-agent"
+        - name: PROCESSORS
+          valueFrom:
+            resourceFieldRef:
+              resource: limits.cpu
+        resources:
+          limits:
+            cpu: 1
+            memory: 3Gi
+          requests:
+            cpu: 250m
+            memory: 768Mi
+        ports:
+        - containerPort: 9200
+          name: http
+        - containerPort: 9300
+          name: transport
+        livenessProbe:
+          tcpSocket:
+            port: transport
+          initialDelaySeconds: 35
+        readinessProbe:
+          httpGet:
+            path: /_cluster/health
+            port: http
+          initialDelaySeconds: 25
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: storage
+          mountPath: /data
+      volumes:
+          - emptyDir:
+              medium: ""
+            name: storage

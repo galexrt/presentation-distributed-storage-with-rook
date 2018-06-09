@@ -1,0 +1,9 @@
+---
+apiVersion: rook.io/v1alpha1
+kind: Pool
+metadata:
+  name: blk-r1-s2
+  namespace: rook
+spec:
+  replicated:
+    size: 2
