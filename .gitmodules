@@ -1,0 +1,3 @@
+[submodule "filesystem/gitlab"]
+	path = filesystem/gitlab
+	url = git@github.com:galexrt/kubernetes-manifests.git
