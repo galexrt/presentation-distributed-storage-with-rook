@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: curator-config
-  namespace: zerbytes-live-proj-logging
+  namespace: moderngaming-live-proj-logging
 data:
   action_file.yml: |-
     actions:

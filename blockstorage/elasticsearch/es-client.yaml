@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: es-client
-  namespace: zerbytes-live-proj-logging
+  namespace: moderngaming-live-proj-logging
   labels:
     app: elasticsearch
     role: client
@@ -39,7 +39,7 @@ spec:
           privileged: true
       containers:
       - name: es-client
-        image: quay.io/pires/docker-elasticsearch-kubernetes:6.2.3_1
+        image: quay.io/pires/docker-elasticsearch-kubernetes:6.3.0
         env:
         - name: NAMESPACE
           valueFrom:

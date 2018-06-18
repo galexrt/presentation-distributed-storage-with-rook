@@ -3,7 +3,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: curator
-  namespace: zerbytes-live-proj-logging
+  namespace: moderngaming-live-proj-logging
 spec:
   schedule: 1 0 * * *
   successfulJobsHistoryLimit: 1

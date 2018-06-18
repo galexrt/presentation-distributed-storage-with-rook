@@ -28,7 +28,7 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
-            - key: roles.clster.zone/rook-mds
+            - key: node-role.kubernetes.io/rook-mds
               operator: In
               values:
               - ""

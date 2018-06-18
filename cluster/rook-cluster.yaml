@@ -1,0 +1,103 @@
+---
+apiVersion: rook.io/v1alpha1
+kind: Cluster
+metadata:
+  name: rook
+  namespace: rook
+spec:
+  dataDirHostPath: /var/lib/rook/config
+  hostNetwork: true
+  monCount: 3
+  placement:
+#    all:
+#      nodeAffinity:
+#      tolerations:
+    api:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/rook-api
+              operator: In
+              values:
+              - ""
+#      tolerations:
+    mon:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/rook-mon
+              operator: In
+              values:
+              - ""
+#      tolerations:
+    osd:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/rook-osd
+              operator: In
+              values:
+              - ""
+#      tolerations:
+    rgw:
+      nodeAffinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/rook-rgw
+                operator: In
+                values:
+                - ""
+#      tolerations:
+  resources:
+    api:
+      limits:
+        cpu: "100m"
+        memory: "512Mi"
+      requests:
+        cpu: "75m"
+        memory: "128Mi"
+    mgr:
+      limits:
+        cpu: "2"
+        memory: "1536Mi"
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+#    mon:
+#      limits:
+#        cpu: "3"
+#        memory: "4Gi"
+#      requests:
+#        cpu: "700m"
+#        memory: "1536Mi"
+#    osd:
+#      limits:
+#        cpu: "6"
+#        memory: "8Gi"
+#      requests:
+#        cpu: "700m"
+#        memory: "1536Mi"
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    deviceFilter: ^sd(b)
+#    metadataDevice:
+#    location:
+    storeConfig:
+      storeType: bluestore
+    directories:
+    - path: "/var/lib/rook/osddata"
+    nodes:
+    - name: "k8s-worker-01.clster.zone"
+    - name: "k8s-worker-02.clster.zone"
+    - name: "k8s-worker-03.clster.zone"
+    - name: "k8s-worker-04.clster.zone"
+    - name: "k8s-worker-05.clster.zone"
+    - name: "k8s-worker-06.clster.zone"
+    - name: "k8s-worker-07.clster.zone"
+    - name: "k8s-worker-08.clster.zone"
