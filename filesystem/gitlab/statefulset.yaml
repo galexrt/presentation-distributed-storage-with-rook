@@ -1,0 +1,91 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: gitlab
+  name: gitlab
+  namespace: zerbytes-live-proj-sinfra
+spec:
+  updateStrategy:
+    type: RollingUpdate
+  serviceName: gitlab
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gitlab
+  template:
+    metadata:
+      labels:
+        app: gitlab
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "kubernetes.io/hostname"
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - gitlab
+      terminationGracePeriodSeconds: 45
+      containers:
+      - name: gitlab
+        #image: sameersbn/gitlab:10.1.4
+        image: quay.io/galexrt/gitlab:custom
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: gitlab-cm
+          - secretRef:
+              name: gitlab-secret
+        ports:
+        - containerPort: 22
+          name: ssh
+          protocol: TCP
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        - containerPort: 5000
+          name: registry
+          protocol: TCP
+        - containerPort: 1234
+          name: pages
+          protocol: TCP
+        readinessProbe:
+          initialDelaySeconds: 35
+          periodSeconds: 10
+          failureThreshold: 15
+          timeoutSeconds: 5
+          httpGet:
+            path: /-/readiness
+            port: 80
+        livenessProbe:
+          httpGet:
+            path: /-/liveness
+            port: 80
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
+          successThreshold: 1
+          periodSeconds: 10
+          failureThreshold: 10
+        resources:
+          limits:
+            cpu: "2"
+            memory: 6Gi
+          requests:
+            cpu: "750m"
+            memory: "1Gi"
+        volumeMounts:
+        - name: gitlab-persistent-storage
+          mountPath: /home/git/data
+      volumes:
+      - name: gitlab-persistent-storage
+        flexVolume:
+          driver: rook.io/rook
+          fsType: ceph
+          options:
+            fsName: cfs-r2-1
+            clusterName: rook
+            path: "/zerbytes-live-proj-sinfra/gitlab"
