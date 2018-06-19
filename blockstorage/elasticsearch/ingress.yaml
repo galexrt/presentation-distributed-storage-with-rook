@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: net-edenmal-logging
+  name: net-moderngaming-mg-logging
   namespace: moderngaming-live-proj-logging
   annotations:
     kubernetes.io/tls-acme: "true"

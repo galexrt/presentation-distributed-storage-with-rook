@@ -20,7 +20,7 @@ data:
           direction: older
           timestring: '%Y.%m.%d'
           unit: days
-          unit_count: 7
+          unit_count: 14
           field:
           stats_result:
           epoch:

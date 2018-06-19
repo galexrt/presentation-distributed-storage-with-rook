@@ -8,6 +8,7 @@ metadata:
     role: data
 spec:
   serviceName: elasticsearch-data
+  podManagementPolicy: Parallel
   replicas: 3
   selector:
     matchLabels:
@@ -40,7 +41,7 @@ spec:
           privileged: true
       containers:
       - name: es-data
-        image: quay.io/pires/docker-elasticsearch-kubernetes:6.3.0
+        image: quay.io/pires/docker-elasticsearch-kubernetes:6.2.4
         env:
         - name: NAMESPACE
           valueFrom:
@@ -51,7 +52,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: CLUSTER_NAME
-          value: zerbytes-0
+          value: moderngaming-0
         - name: NODE_MASTER
           value: "false"
         - name: NODE_INGEST
@@ -59,7 +60,7 @@ spec:
         - name: HTTP_ENABLE
           value: "false"
         - name: ES_JAVA_OPTS
-          value: "-Xms4G -Xmx4G"
+          value: "-Xms6G -Xmx6G"
         - name: NETWORK_HOST
           value: "_eth0_"
         - name: "ES_PLUGINS_INSTALL"
@@ -71,7 +72,7 @@ spec:
         resources:
           limits:
             cpu: "1.5"
-            memory: 5Gi
+            memory: 7Gi
           requests:
             cpu: 250m
             memory: 1024Mi
@@ -94,4 +95,4 @@ spec:
       accessModes: [ ReadWriteOnce ]
       resources:
         requests:
-          storage: 75Gi
+          storage: 150Gi

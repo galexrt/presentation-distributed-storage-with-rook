@@ -39,7 +39,7 @@ spec:
           privileged: true
       containers:
       - name: es-master
-        image: quay.io/pires/docker-elasticsearch-kubernetes:6.3.0
+        image: quay.io/pires/docker-elasticsearch-kubernetes:6.2.4
         env:
         - name: NAMESPACE
           valueFrom:
@@ -50,7 +50,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: CLUSTER_NAME
-          value: zerbytes-0
+          value: moderngaming-0
         - name: NUMBER_OF_MASTERS
           value: "2"
         - name: NODE_MASTER
@@ -62,7 +62,7 @@ spec:
         - name: HTTP_ENABLE
           value: "false"
         - name: ES_JAVA_OPTS
-          value: "-Xms2G -Xmx2G"
+          value: "-Xms4G -Xmx4G"
         - name: NETWORK_HOST
           value: "_eth0_"
         - name: "ES_PLUGINS_INSTALL"
@@ -74,7 +74,7 @@ spec:
         resources:
           limits:
             cpu: 1
-            memory: 3Gi
+            memory: 5Gi
           requests:
             cpu: 250m
             memory: 768Mi

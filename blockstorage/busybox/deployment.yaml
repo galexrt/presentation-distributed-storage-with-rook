@@ -13,9 +13,13 @@ spec:
       labels:
         app: busybox
     spec:
+      terminationGracePeriodSeconds: 1
       containers:
       - image: busybox:1.28.4-glibc
         name: busybox
+        command:
+        - sleep
+        - "3600"
         volumeMounts:
         - name: busybox-persistent-storage
           mountPath: /data

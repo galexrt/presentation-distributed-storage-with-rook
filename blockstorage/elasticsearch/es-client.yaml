@@ -30,7 +30,7 @@ spec:
                 - client
       initContainers:
       - name: init-sysctl
-        image: busybox:1.27.2
+        image: busybox:1.28.4
         command:
         - sysctl
         - -w
@@ -39,7 +39,7 @@ spec:
           privileged: true
       containers:
       - name: es-client
-        image: quay.io/pires/docker-elasticsearch-kubernetes:6.3.0
+        image: quay.io/pires/docker-elasticsearch-kubernetes:6.2.4
         env:
         - name: NAMESPACE
           valueFrom:
@@ -50,7 +50,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: CLUSTER_NAME
-          value: zerbytes-0
+          value: moderngaming-0
         - name: NODE_MASTER
           value: "false"
         - name: NODE_DATA

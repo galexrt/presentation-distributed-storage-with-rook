@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
           - name: curator
-            image: quay.io/pires/docker-elasticsearch-curator:5.4.1
+            image: quay.io/pires/docker-elasticsearch-curator:5.5.4
             args:
             - --config
             - /etc/config/config.yml
