@@ -1,16 +1,6 @@
 # presentation-distributed-storage-with-rook
 
-## Block Storage
-### Busybox
-Simple busybox Deployment with a PVC, the PV is attached to `/data`.
+This repo contains the demo files used for the "Distributed storage with Rook" talk.
 
-### Elasticsearch
-Starts an Elasticsearch instance.
-
-## Shared Filesystem
-As an example application GitLab is used, to demonstrate to simplicity to be able to scale the application
-### GitLab
-The manifests can be found here: [GitHub galexrt/kubernetes-manifests - master /gitlab](https://github.com/galexrt/kubernetes-manifests/tree/master/gitlab).
-
-## Example Cluster
-Show example `cluster.yaml`.
+* [ContainerDays Hamburg 2018](/containerdays-hamburg-2018/)
+* [Cloud Native Karlsruhe August 2018](/cloud-native-karlsruhe-august-2018/)
