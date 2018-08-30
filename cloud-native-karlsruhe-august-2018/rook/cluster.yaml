@@ -55,7 +55,7 @@ metadata:
   name: rook-ceph
   namespace: rook-ceph
 spec:
-  dataDirHostPath: /var/lib/rook
+  dataDirHostPath: /data/rook
   serviceAccount: rook-ceph-cluster
   mon:
     count: 1
