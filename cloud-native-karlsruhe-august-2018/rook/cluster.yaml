@@ -58,7 +58,7 @@ spec:
   dataDirHostPath: /var/lib/rook
   serviceAccount: rook-ceph-cluster
   mon:
-    count: 3
+    count: 1
     allowMultiplePerNode: true
   dashboard:
     enabled: true
