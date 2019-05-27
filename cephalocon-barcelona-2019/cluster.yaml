@@ -1,0 +1,28 @@
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: rook-ceph
+spec:
+  cephVersion:
+    image: ceph/ceph:v14.2.1-20190430
+    allowUnsupported: false
+  dataDirHostPath: /var/lib/rook
+  mon:
+    count: 3
+    allowMultiplePerNode: false
+  dashboard:
+    enabled: true
+  network:
+    hostNetwork: false
+  rbdMirroring:
+    workers: 0
+  annotations:
+  resources:
+  storage:
+    useAllNodes: true
+    useAllDevices: true
+    deviceFilter:
+    location:
+    config:
+      # osdsPerDevice: "1" # this value can be overridden at the node or device level
